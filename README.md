@@ -8,8 +8,7 @@ The setup is designed to demonstrate how to organize and secure virtual machines
 
 ## 📐 Architecture Overview
 
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/b9aa995e-937e-4e35-a2e7-479d8614ed82" />
-
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/a0311149-ddfc-4cdb-9fcb-c11e0fe0b413" />
 
 The architecture includes:
 
