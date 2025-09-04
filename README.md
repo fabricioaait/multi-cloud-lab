@@ -66,4 +66,4 @@ The architecture includes:
    terraform destroy
    ```
 
-```
+
