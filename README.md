@@ -13,7 +13,8 @@ The architecture includes:
 - **Central Management SSH Keys**  
   - Different SSH access keys for all instances in each cloud environment.  
 
-- **Cloud Providers**  
+- **Cloud Providers**
+  - Has a On/OFF "button" for Cloud Providers using with variables to enable or not the creation of Infra in one provider. 
   - **Azure**: Two Linux VMs and one Windows VM inside a VNet.  
   - **AWS**: One Linux VM inside a VPC.  
   - **Google Cloud (GCP)**: One Linux VM inside a VPC.  
