@@ -72,7 +72,7 @@ output "alibaba_ssh_connection_command" {
 ### Connections Summary
 output "ssh_connection_summary" {
   description = "SSH Connections Summary"
-  value = <<EOT
+  value       = <<EOT
 SSH Commands:
 
 Azure Linux VM 1:  ssh -i sshkeys/azure_linux_vm1 adminuser@${azurerm_public_ip.linux_ip[0].ip_address}

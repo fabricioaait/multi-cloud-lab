@@ -202,8 +202,8 @@ resource "alicloud_vswitch" "main" {
 
 # Security Group Alibaba
 resource "alicloud_security_group" "main" {
-  security_group_name   = "main-sg"
-  vpc_id = alicloud_vpc.main.id
+  security_group_name = "main-sg"
+  vpc_id              = alicloud_vpc.main.id
 }
 
 # Security Group rule SSH
@@ -215,5 +215,5 @@ resource "alicloud_security_group_rule" "allow_ssh" {
   port_range        = "22/22"
   priority          = 1
   security_group_id = alicloud_security_group.main.id
-  cidr_ip           = "${var.my_public_ip}"
+  cidr_ip           = var.my_public_ip
 }

@@ -36,6 +36,6 @@ resource "google_compute_project_metadata" "ssh_keys" {
 
 # Alibaba keys
 resource "alicloud_key_pair" "main" {
-  key_pair_name = "alibaba_ssh_key"  
+  key_pair_name = "alibaba_ssh_key"
   public_key    = file("${path.module}/sshkeys/alibaba_linux_vm.pub")
 }
