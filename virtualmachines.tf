@@ -55,39 +55,13 @@ resource "azurerm_windows_virtual_machine" "win_vm" {
 
 ### AWS
 
-# Security group SSH
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh"
-  description = "SSH allow permission"
-  vpc_id      = aws_vpc.main.id # Precisa de uma VPC definida
-
-  ingress {
-    description = "SSH do meu IP"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["${var.my_public_ip}"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allow_ssh"
-  }
-}
-
 # EC2 AWS
 resource "aws_instance" "free_tier_linux" {
   ami                    = var.aws_ami
   instance_type          = var.aws_instance_type
   key_name               = aws_key_pair.aws_key.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id              = aws_subnet.main.id # Precisa de uma subnet definida
+  subnet_id              = aws_subnet.main.id
 
   tags = {
     Name = "FreeTierLinux"
