@@ -8,6 +8,9 @@ The setup is designed to demonstrate how to organize and secure virtual machines
 
 ## 📐 Architecture Overview
 
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/b9aa995e-937e-4e35-a2e7-479d8614ed82" />
+
+
 The architecture includes:
 
 - **Central Management SSH Keys**  
