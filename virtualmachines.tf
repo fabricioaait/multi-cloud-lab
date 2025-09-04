@@ -1,6 +1,6 @@
 # Azure Linux VMs
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  count               = 2
+  count               = var.enable_azure ? 2 : 0
   name                = "linux-vm-${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -30,14 +30,15 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
 # Azure Windows VM
 resource "azurerm_windows_virtual_machine" "win_vm" {
-  name                = "win-vm"
+  count               = var.enable_azure ? 1 : 0
+  name                = "win-vm-${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = "Standard_B1s"
   admin_username      = var.admin_username
   admin_password      = var.admin_win_password
   network_interface_ids = [
-    azurerm_network_interface.win_nic.id
+    azurerm_network_interface.win_nic[count.index].id
   ]
 
   os_disk {
@@ -57,11 +58,12 @@ resource "azurerm_windows_virtual_machine" "win_vm" {
 
 # EC2 AWS
 resource "aws_instance" "free_tier_linux" {
-  ami                    = var.aws_ami
-  instance_type          = var.aws_instance_type
-  key_name               = aws_key_pair.aws_key.key_name
+  count         = var.enable_aws ? 1 : 0
+  ami           = var.aws_ami
+  instance_type = var.aws_instance_type
+  key_name      = var.enable_aws ? aws_key_pair.aws_key[0].key_name : null
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id              = aws_subnet.main.id
+  subnet_id     = aws_subnet.main.id
 
   tags = {
     Name = "FreeTierLinux"
@@ -70,13 +72,15 @@ resource "aws_instance" "free_tier_linux" {
 
 # Elastic IP 
 resource "aws_eip" "aws_instance_ip" {
-  instance = aws_instance.free_tier_linux.id
+  count    = var.enable_aws ? 1 : 0
+  instance = var.enable_aws ? aws_instance.free_tier_linux[0].id : null
 }
 
 ### GCP 
 
 # GCP Instance
 resource "google_compute_instance" "free_tier_linux" {
+  count        = var.enable_gcp ? 1 : 0
   name         = "gcp-free-tier-linux"
   machine_type = var.gcp_instance_type
   zone         = var.gcp_zone
@@ -112,15 +116,16 @@ resource "google_compute_instance" "free_tier_linux" {
 
 # ECS Instance
 resource "alicloud_instance" "free_tier_linux" {
-  instance_name   = "alibaba-free-tier-linux"
-  instance_type   = var.alibaba_instance_type
-  image_id        = var.alibaba_image_id
-  vswitch_id      = alicloud_vswitch.main.id
+  count         = var.enable_alibaba ? 1 : 0
+  instance_name = "alibaba-free-tier-linux"
+  instance_type = var.alibaba_instance_type
+  image_id      = var.alibaba_image_id
+  vswitch_id    = alicloud_vswitch.main.id
   security_groups = [alicloud_security_group.main.id]
 
   internet_max_bandwidth_out = 5
 
-  key_name = alicloud_key_pair.main.key_pair_name
+  key_name = var.enable_alibaba ? alicloud_key_pair.main[0].key_pair_name : null
 
   system_disk_category = "cloud_efficiency"
   system_disk_size     = 20

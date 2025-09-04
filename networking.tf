@@ -158,7 +158,7 @@ resource "azurerm_network_security_group" "nsg" {
 
 # Public IP Linux
 resource "azurerm_public_ip" "linux_ip" {
-  count               = 2
+  count               = var.enable_azure ? 2 : 0
   name                = "linux-ip-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -168,7 +168,7 @@ resource "azurerm_public_ip" "linux_ip" {
 
 # Network Interface Linux
 resource "azurerm_network_interface" "linux_nic" {
-  count               = 2
+  count               = var.enable_azure ? 2 : 0
   name                = "linux-nic-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -183,7 +183,7 @@ resource "azurerm_network_interface" "linux_nic" {
 
 # NSG Association Linux
 resource "azurerm_network_interface_security_group_association" "linux_assoc" {
-  count                     = 2
+  count                     = var.enable_azure ? 2 : 0
   network_interface_id      = azurerm_network_interface.linux_nic[count.index].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
@@ -191,6 +191,7 @@ resource "azurerm_network_interface_security_group_association" "linux_assoc" {
 # Public IP Windows
 resource "azurerm_public_ip" "win_ip" {
   name                = "win-ip"
+  count               = var.enable_azure ? 1 : 0
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -199,6 +200,7 @@ resource "azurerm_public_ip" "win_ip" {
 
 # Network Interface Windows
 resource "azurerm_network_interface" "win_nic" {
+  count               = var.enable_azure ? 1 : 0
   name                = "win-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -207,13 +209,14 @@ resource "azurerm_network_interface" "win_nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.win_ip.id
+    public_ip_address_id          = var.enable_azure ? azurerm_public_ip.win_ip[0].id : null
   }
 }
 
 # NSG Association Windows
 resource "azurerm_network_interface_security_group_association" "win_assoc" {
-  network_interface_id      = azurerm_network_interface.win_nic.id
+  count                     = var.enable_azure ? 1 : 0
+  network_interface_id      = azurerm_network_interface.win_nic[count.index].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 

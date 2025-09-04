@@ -99,3 +99,27 @@ variable "alibaba_image_id" {
   type        = string
   default     = "ubuntu_20_04_x64_20G_alibase_20240220.vhd"
 }
+
+variable "enable_aws" {
+  description = "Enable AWS resources"
+  type        = bool
+  default     = true
+}
+
+variable "enable_azure" {
+  description = "Enable Azure resources"
+  type        = bool
+  default     = true
+}
+
+variable "enable_gcp" {
+  description = "Enable GCP resources"
+  type        = bool
+  default     = true
+}
+
+variable "enable_alibaba" {
+  description = "Enable Alibaba resources"
+  type        = bool
+  default     = true
+}
