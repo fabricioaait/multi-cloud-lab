@@ -46,25 +46,25 @@ The architecture includes:
 2. Initialize Terraform:
 
    ```bash
-   terraform init
+   terraform init 
    ```
 
 3. Preview the deployment plan:
 
    ```bash
-   terraform plan
+   terraform plan -var="enable_aws=true" -var="enable_azure=true" -var="enable_gcp=true" -var="enable_alibaba=true"
    ```
 
 4. Deploy the infrastructure:
 
    ```bash
-   terraform apply
+   terraform apply var="enable_aws=true" -var="enable_azure=true" -var="enable_gcp=true" -var="enable_alibaba=true"
    ```
 
 5. Destroy the infrastructure when finished:
 
    ```bash
-   terraform destroy
+   terraform destroy var="enable_aws=true" -var="enable_azure=true" -var="enable_gcp=true" -var="enable_alibaba=true"
    ```
 
 
