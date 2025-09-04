@@ -40,7 +40,7 @@ The architecture includes:
    ```bash
    git clone https://github.com/fabricioaait/multi-cloud-lab.git
    cd multi-cloud-lab
-````
+   ````
 
 2. Initialize Terraform:
 
